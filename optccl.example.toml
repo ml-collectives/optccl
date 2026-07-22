@@ -1,0 +1,64 @@
+# optccl configuration file.
+#
+# Copy this to ./optccl.toml (or pass --config PATH to any command). Every key
+# is optional; the values below are the defaults from optccl/config.py, so an
+# empty or missing config file is also valid.
+
+[gurobi]
+# Gurobi WLS credentials. Leave as "XXX" (or delete the section) to fall back
+# to an ordinary local license (gurobi.lic on the default search path or via
+# GRB_LICENSE_FILE).
+wls_access_id = "XXX"
+wls_secret    = "XXX"
+license_id    = 9999999
+
+[solver]
+# Per-collective: solve the Dantzig-Wolfe subproblems with barrier and no
+# crossover (Method=2 / Crossover=0 / BarHomogeneous=1 / ScaleFlag=1).
+ag_no_crossover = true
+aa_no_crossover = false
+ar_no_crossover = true
+rs_no_crossover = true
+# Phase-1 cost-awareness weight for the two-phase column generation
+# (0 = pure feasibility), applied relative to the feasibility gradient so a
+# given value sets the same cost/feasibility trade-off across topology sizes.
+ag_phase1_cost_weight = 0.01
+ar_phase1_cost_weight = 0.01
+aa_phase1_cost_weight = 0.01
+rs_phase1_cost_weight = 0.01
+multi_phase1_cost_weight = 0.01
+# Return the first feasible Phase-1 solution and skip Phase 2 entirely
+# (ignores solution quality in favor of runtime).
+stop_at_feasible = false
+# Iterative formulation strengthening via vertex duplication (also enabled
+# per-run with the --strengthen flag).
+strengthen = false
+strengthen_max_rounds = 10
+strengthen_tol = 1e-4
+# Rate-retry on infeasibility: when a DW solve's Phase 1 is infeasible (R below
+# the achievable rate), multiply R by rate_retry_factor and re-solve, up to
+# rate_retry_max times. rate_retry_max = 0 disables it (terminate with an error).
+rate_retry_max = 0
+rate_retry_factor = 1.01
+
+[algorithm]
+time_steps = 4                     # steps in the time-expanded LP (also -T/--time-steps)
+dw_tolerance = 1e-7                # Dantzig-Wolfe convergence threshold
+all_reduce_via_reflection = true   # solve all_reduce as one mirrored AllGather when the topology allows
+n_workers = -1                     # worker processes for decomposition; -1 = all cores
+
+[topology]
+multirail_bandwidth = 25.0         # inter-node link bandwidth used by multi-node expansion
+topology_cache_dir = "./topology_cache"  # where generated topology caches are stored
+
+[output]
+step_schedule_K = 20               # chunks per tree in the step schedule
+total_data_size = 100000000        # per-GPU data size, in kB
+decomposition_tolerance = 1e-6
+uniform_chunks = true
+uniform_chunk_size = 500           # chunk size, in kB
+schedule_from_counts = true        # materialize schedules from the count-based sim (flatter);
+                                   # false = exact per-chunk WFQ materialization
+expand_schedule_symmetry = false   # false = emit the schedule for one representative origin per
+                                   # equivalence class (fast; the output's "ec_expansion" gives the
+                                   # shifts to recover the rest). true = emit every EC member.

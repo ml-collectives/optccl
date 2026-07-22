@@ -1,0 +1,55 @@
+# Editor / tooling config
+pyrightconfig.json
+.vscode/
+.idea/
+*.swp
+*~
+
+# Personal config — may contain Gurobi WLS credentials.
+# Only the example template and the build config are tracked.
+*.toml
+!optccl.example.toml
+!pyproject.toml
+
+# Gurobi license / credentials
+gurobi.lic
+*.lic
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode / caches / build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Generated solver outputs / caches
+sol_*.json
+process_*.json
+topology_*.json
+topology_cache/
+*.trees.pkl
+*.pkl
+
+# OS cruft
+.DS_Store
+Thumbs.db
+Desktop.ini

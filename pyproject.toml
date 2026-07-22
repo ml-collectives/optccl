@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optccl"
+version = "0.1.0"
+description = "Collective communication algorithm synthesizer"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [
+    { name = "Richard Shapley"},
+    { name = "Rachit Agarwal"},
+    { name = "David Shmoys"}
+]
+keywords = ["collective-communication"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Intended Audience :: Science/Research",
+]
+dependencies = [
+    "gurobipy",
+    "networkx",
+    "numpy",
+]
+
+[project.urls]
+Repository = "https://github.com/ml-collectives/optccl"
+Paper = "https://doi.org/10.1145/3789240.3829207"
+
+[project.scripts]
+optccl = "optccl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["optccl*"]
