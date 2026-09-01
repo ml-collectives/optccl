@@ -1,6 +1,6 @@
 # OptCCL
 
-OptCCL is a tool for generating optimal collective communication algorithms using linear programming methods. It reframes the problem as a routing problem using a multicommodity flow formulation. To solve the LPs for large topologies, OptCCL uses a technique called mirrored Dantzig-Wolfe, which exploits the inherent symmetry in the problem to accelerate the Dantzig-Wolfe subproblems.
+OptCCL is a tool for generating optimal collective communication algorithms using linear programming methods. It reframes the problem as a routing problem using a multicommodity flow formulation. To solve the LPs for large topologies, OptCCL uses a technique called mirrored Dantzig-Wolfe, which exploits the inherent symmetry in the problem to accelerate the Dantzig-Wolfe subproblems. Read the [paper](https://dl.acm.org/doi/10.1145/3789240.3829207) or the [extended technical report](optccl-techreport.pdf) for more details.
 
 ## Installation
 

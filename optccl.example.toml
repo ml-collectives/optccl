@@ -52,8 +52,8 @@ multirail_bandwidth = 25.0         # inter-node link bandwidth used by multi-nod
 topology_cache_dir = "./topology_cache"  # where generated topology caches are stored
 
 [output]
-step_schedule_K = 20               # chunks per tree in the step schedule
-total_data_size = 100000000        # per-GPU data size, in kB
+step_schedule_K = 400              # chunks per tree in the step schedule
+total_data_size = 500000000        # per-GPU data size, in kB
 decomposition_tolerance = 1e-6
 uniform_chunks = true
 uniform_chunk_size = 500           # chunk size, in kB
