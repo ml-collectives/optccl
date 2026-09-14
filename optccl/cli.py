@@ -241,10 +241,10 @@ def _process_and_report(
             result["realized_latency"],
             result["ideal_latency"],
         )
-        logger.info(
-            "  overhead (unif) : %.1f%%  (uniform-step / barrier-per-step, for reference)",
-            result["overhead_uniform_step"] * 100,
-        )
+        # logger.info(
+        #     "  overhead (unif) : %.1f%%  (uniform-step / barrier-per-step, for reference)",
+        #     result["overhead_uniform_step"] * 100,
+        # )
     if "measured_latency_s" in result:
         logger.info(
             "  measured latency: %.4f s  (sum of variable step lengths)",
