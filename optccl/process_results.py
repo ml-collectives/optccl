@@ -317,6 +317,23 @@ def post_process_trees(decomposed_trees, switches):
             edge_list = []
             edge_dests = []
 
+            # Contracting a switch folds it into the preceding edge's metadata,
+            # which assumes it is a pure pass-through reached from some real
+            # vertex. A switch with copy/reduce can instead be where a suffix
+            # *starts* -- its siblings' suffixes carry the inbound edge. Folding
+            # it away there would leave this suffix rooted at a switch, which
+            # build_tree_dag rejects. Pin those switches as real vertices.
+            pinned_switches = set()
+            for _d, _sedges in suffixes.items():
+                if not _sedges:
+                    continue
+                _back = {v: u for u, v in _sedges}
+                _curr = _d
+                while _curr in _back:
+                    _curr = _back[_curr]
+                if _curr[0] in switches:
+                    pinned_switches.add(_curr)
+
             for d, edges in suffixes.items():
                 edge_dests.append(d[0])
 
@@ -348,7 +365,11 @@ def post_process_trees(decomposed_trees, switches):
 
                 for i in range(1, len(forward_path)):
                     node = forward_path[i]
-                    if node[0] in switches and i < len(forward_path) - 1:
+                    if (
+                        node[0] in switches
+                        and node not in pinned_switches
+                        and i < len(forward_path) - 1
+                    ):
                         switch_list.append(node[0])
                     else:
                         switch_dict[real_path[-1], node] = switch_list
